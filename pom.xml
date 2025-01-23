@@ -31,6 +31,32 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- JAX-WS dependencies -->
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-ri</artifactId>
+            <version>4.0.1</version>
+            <type>pom</type>
+        </dependency>
+
+        <!-- HK2 OSGi Resource Locator -->
+        <dependency>
+            <groupId>org.glassfish.hk2</groupId>
+            <artifactId>osgi-resource-locator</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+
+        <!-- Additional dependencies that might be needed -->
+        <dependency>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.jws</groupId>
+            <artifactId>jakarta.jws-api</artifactId>
+            <version>3.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>
