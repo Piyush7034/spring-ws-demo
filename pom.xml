@@ -80,7 +80,7 @@
                     <packageName>com.example.springwsdemo.gen</packageName>
                     <wsdlDirectory>${project.basedir}/src/main/wsdl</wsdlDirectory>
                     <wsdlFiles>
-                        <wsdlFile>peru.wsdl</wsdlFile>
+                        <wsdlFile>public-countries.wsdl</wsdlFile>
                     </wsdlFiles>
                     <sourceDestDir>${project.build.sourceDirectory}</sourceDestDir>
                     <keep>true</keep>

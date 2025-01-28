@@ -3,21 +3,22 @@ package com.example.springwsdemo.gen;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for resultadoActualizacionCredencial complex type.
+ * <p>Java class for tLanguage complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="resultadoActualizacionCredencial"&gt;
+ * &lt;complexType name="tLanguage"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="coResultado" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;element name="deResultado" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="sISOCode" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="sName" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -27,61 +28,63 @@ import jakarta.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "resultadoActualizacionCredencial", propOrder = {
-    "coResultado",
-    "deResultado"
+@XmlType(name = "tLanguage", propOrder = {
+    "sisoCode",
+    "sName"
 })
-public class ResultadoActualizacionCredencial {
+public class TLanguage {
 
-    protected String coResultado;
-    protected String deResultado;
+    @XmlElement(name = "sISOCode", required = true)
+    protected String sisoCode;
+    @XmlElement(required = true)
+    protected String sName;
 
     /**
-     * Gets the value of the coResultado property.
+     * Gets the value of the sisoCode property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getCoResultado() {
-        return coResultado;
+    public String getSISOCode() {
+        return sisoCode;
     }
 
     /**
-     * Sets the value of the coResultado property.
+     * Sets the value of the sisoCode property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setCoResultado(String value) {
-        this.coResultado = value;
+    public void setSISOCode(String value) {
+        this.sisoCode = value;
     }
 
     /**
-     * Gets the value of the deResultado property.
+     * Gets the value of the sName property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getDeResultado() {
-        return deResultado;
+    public String getSName() {
+        return sName;
     }
 
     /**
-     * Sets the value of the deResultado property.
+     * Sets the value of the sName property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setDeResultado(String value) {
-        this.deResultado = value;
+    public void setSName(String value) {
+        this.sName = value;
     }
 
 }
