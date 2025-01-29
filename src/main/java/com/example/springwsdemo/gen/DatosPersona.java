@@ -1,6 +1,9 @@
 
 package com.example.springwsdemo.gen;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlType;
@@ -33,28 +36,26 @@ import jakarta.xml.bind.annotation.XmlType;
  * 
  * 
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "datosPersona", propOrder = {
-    "dni",
-    "prenombres",
-    "primerApellido",
-    "apellidoCasada",
-    "segundoApellido",
-    "fechaNacimiento",
-    "genero",
-    "estadoCivil",
-    "restriccion"
-})
+@JacksonXmlRootElement(localName = "datosPersona")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DatosPersona {
-
+    @JacksonXmlProperty
     protected String dni;
+    @JacksonXmlProperty
     protected String prenombres;
+    @JacksonXmlProperty
     protected String primerApellido;
+    @JacksonXmlProperty
     protected String apellidoCasada;
+    @JacksonXmlProperty
     protected String segundoApellido;
+    @JacksonXmlProperty
     protected String fechaNacimiento;
+    @JacksonXmlProperty
     protected String genero;
+    @JacksonXmlProperty
     protected String estadoCivil;
+    @JacksonXmlProperty
     protected String restriccion;
 
     /**

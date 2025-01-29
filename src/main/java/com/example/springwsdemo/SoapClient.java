@@ -1,6 +1,8 @@
 package com.example.springwsdemo;
 
-import com.example.springwsdemo.gen.ResultadoConsulta;
+import com.example.springwsdemo.gen.ConsultarResponse;
+import com.example.springwsdemo.gen.Envelope;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.soap.MessageFactory;
@@ -45,16 +47,20 @@ public class SoapClient {
                 """;
             // Send SOAP request and get response
             String soapResponse = sendSOAPRequest(endpointUrl, soapRequest);
-            // Extract the SOAP Body
-            String responseBody = extractSOAPBody(soapResponse);
 
-            System.out.println("response body:" + responseBody);
-            // Unmarshal the response body
-//            JAXBContext jaxbContext = JAXBContext.newInstance(ResultadoConsulta.class);
-//            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-//            ResultadoConsulta response = (ResultadoConsulta) unmarshaller.unmarshal(new StringReader(responseBody));
-//            // Print the unmarshalled result
-//            System.out.println("Response Result: " + response.getDatosPersona());
+            try {
+                XmlMapper xmlMapper = new XmlMapper();
+                Envelope resp = xmlMapper.readValue(soapResponse, Envelope.class);
+                System.out.println(resp.getBody());
+                System.out.println(resp.getBody().getConsultarResponse());
+                System.out.println(resp.getBody().getConsultarResponse().getResponseReturn());
+                System.out.println(resp.getBody().getConsultarResponse().getResponseReturn().getDeResultado());
+                System.out.println(resp.getBody().getConsultarResponse().getResponseReturn().getCoResultado());
+                System.out.println(resp.getBody().getConsultarResponse().getResponseReturn().getDatosPersona().getSegundoApellido());
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
