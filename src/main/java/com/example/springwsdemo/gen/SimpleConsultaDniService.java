@@ -17,7 +17,7 @@ import jakarta.xml.ws.WebServiceFeature;
  * Generated source version: 3.0
  * 
  */
-@WebServiceClient(name = "SimpleConsultaDniService", targetNamespace = "http://endpoint.wsconsultadni.reniec.gob.pe/", wsdlLocation = "file:/C:/Users/piyush.shukla03/Desktop/MOSIP/Peru/spring-ws-demo/src/main/wsdl/peru.wsdl")
+@WebServiceClient(name = "SimpleConsultaDniService", targetNamespace = "http://endpoint.wsconsultadni.reniec.gob.pe/", wsdlLocation = "file:/Users/piyushshukla/Desktop/MOSIP%20Latest/Peru%20POC/spring-ws-demo/src/main/wsdl/peru.wsdl")
 public class SimpleConsultaDniService
     extends Service
 {
@@ -30,7 +30,7 @@ public class SimpleConsultaDniService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/C:/Users/piyush.shukla03/Desktop/MOSIP/Peru/spring-ws-demo/src/main/wsdl/peru.wsdl");
+            url = new URL("file:/Users/piyushshukla/Desktop/MOSIP%20Latest/Peru%20POC/spring-ws-demo/src/main/wsdl/peru.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

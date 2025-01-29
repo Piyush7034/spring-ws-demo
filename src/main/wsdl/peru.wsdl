@@ -94,7 +94,7 @@ revision#2eaca54d17a59d265c6fe886b7fd0027836c766c. -->
     </binding>
     <service name="SimpleConsultaDniService">
         <port name="SRELServiceServicePort" binding="tns:SRELServiceServicePortBinding">
-            <soap:address location="https://jfloresh.reniec.gob.pe:443/wsconsultadni/ConsultaDniService"/>
+            <soap:address location="http://65.1.93.129/consultadnie/ConsultaDniService"/>
         </port>
     </service>
 </definitions>
