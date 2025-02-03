@@ -1,19 +1,13 @@
 package com.example.springwsdemo;
 
-import com.example.springwsdemo.gen.ConsultarResponse;
-import com.example.springwsdemo.gen.Envelope;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.example.springwsdemo.gen.request.ConsultaArg;
+import com.example.springwsdemo.gen.request.Consultar;
+import com.example.springwsdemo.gen.request.RequestBody;
+import com.example.springwsdemo.gen.request.RequestEnvelope;
+import com.example.springwsdemo.gen.response.ResponseEnvelope;
 import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
-import jakarta.xml.soap.MessageFactory;
-import jakarta.xml.soap.SOAPBody;
-import jakarta.xml.soap.SOAPMessage;
-
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.ByteArrayInputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -26,41 +20,20 @@ public class SoapClient {
         try {
             // SOAP Endpoint and Request Body
             String endpointUrl = "http://65.1.93.129/consultadnie/ConsultaDniService";
-            String soapRequest = """
-                    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:end="http://endpoint.wsconsultadni.reniec.gob.pe/">
-                       <soapenv:Header/>
-                       <soapenv:Body>
-                           <end:consultar>
-                               <arg0>
-                                   <!--Optional:-->
-                                   <nuDniConsulta>06794000</nuDniConsulta>
-                                   <!--Optional:-->
-                                   <nuDniUsuario>06794000</nuDniUsuario>
-                                   <!--Optional:-->
-                                   <nuRucUsuario>20295613620</nuRucUsuario>
-                                   <!--Optional:-->
-                                   <password>06794000</password>
-                               </arg0>
-                           </end:consultar>
-                       </soapenv:Body>
-                   </soapenv:Envelope>
-                """;
             // Send SOAP request and get response
-            String soapResponse = sendSOAPRequest(endpointUrl, soapRequest);
+            String sampleSoapRequest = buildSoapRequest();
+            System.out.println("sample soap request: " + sampleSoapRequest);
+            String soapResponse = sendSOAPRequest(endpointUrl, sampleSoapRequest);
 
-            try {
-                XmlMapper xmlMapper = new XmlMapper();
-                Envelope resp = xmlMapper.readValue(soapResponse, Envelope.class);
-                System.out.println(resp.getBody());
-                System.out.println(resp.getBody().getConsultarResponse());
-                System.out.println(resp.getBody().getConsultarResponse().getResponseReturn());
-                System.out.println(resp.getBody().getConsultarResponse().getResponseReturn().getDeResultado());
-                System.out.println(resp.getBody().getConsultarResponse().getResponseReturn().getCoResultado());
-                System.out.println(resp.getBody().getConsultarResponse().getResponseReturn().getDatosPersona().getSegundoApellido());
-            } catch (Exception e) {
-                e.printStackTrace();
+            JAXBContext jaxbContext = JAXBContext.newInstance(ResponseEnvelope.class);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            ResponseEnvelope response = (ResponseEnvelope) unmarshaller.unmarshal(new StringReader(soapResponse));
 
-            }
+            System.out.println(response.getResponseBody().getConsultarResponse().getResponseReturn().getCoResultado());
+            System.out.println(response.getResponseBody().getConsultarResponse().getResponseReturn().getDeResultado());
+            System.out.println(response.getResponseBody().getConsultarResponse().getResponseReturn().getDatosPersona().getDni());
+            System.out.println(response.getResponseBody().getConsultarResponse().getResponseReturn().getDatosPersona().getPrenombres());
+            System.out.println(response.getResponseBody().getConsultarResponse().getResponseReturn().getDatosPersona().getGenero());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,16 +56,31 @@ public class SoapClient {
             throw new RuntimeException("HTTP error code: " + connection.getResponseCode());
         }
     }
-    private static String extractSOAPBody(String soapMessage) throws Exception {
-        // Parse the SOAP response
-        MessageFactory factory = MessageFactory.newInstance();
-        SOAPMessage message = factory.createMessage(null, new ByteArrayInputStream(soapMessage.getBytes(StandardCharsets.UTF_8)));
-        SOAPBody body = message.getSOAPBody();
-        // Return the content of the SOAP body as a string
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        StringWriter writer = new StringWriter();
-        transformer.transform(new DOMSource(body), new StreamResult(writer));
-        return writer.toString();
+
+    private static String buildSoapRequest() throws Exception {
+        // Create the object structure
+        ConsultaArg arg = new ConsultaArg();
+        arg.setNuDniConsulta("06794000");
+        arg.setNuDniUsuario("06794000");
+        arg.setNuRucUsuario("20295613620");
+        arg.setPassword("06794000");
+
+        Consultar consultar = new Consultar();
+        consultar.setArg0(arg);
+
+        RequestBody body = new RequestBody();
+        body.setConsultar(consultar);
+
+        RequestEnvelope envelope = new RequestEnvelope();
+        envelope.setBody(body);
+
+        // Convert to XML
+        JAXBContext context = JAXBContext.newInstance(RequestEnvelope.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+        StringWriter sw = new StringWriter();
+        marshaller.marshal(envelope, sw);
+        return sw.toString();
     }
 }
